@@ -6,7 +6,10 @@
     "murphy": "murphy",
     "http-server": "serve -p 3102 --cors",
     "start": "run-p http-server murphy",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp build",
+    "watch": "gulp watch",
+    "dev": "run-p watch murphy"
   },
   "repository": {
     "type": "git",
@@ -22,5 +25,18 @@
     "@videojs/murphy": "0.1.1",
     "npm-run-all": "^4.1.5",
     "serve": "^11.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "autoprefixer": "^9.7.6",
+    "babel-loader": "^8.1.0",
+    "browser-sync": "^2.26.7",
+    "cssnano": "^4.1.10",
+    "gulp": "^4.0.2",
+    "gulp-postcss": "^8.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^4.1.0",
+    "webpack": "^4.43.0"
   }
 }
