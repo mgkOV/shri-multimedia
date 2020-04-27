@@ -2,7 +2,7 @@ const path = require("path");
 
 const config = {
   mode: "production",
-  entry: "./src/assets/script.js",
+  entry: "./src/js/script.js",
   output: {
     path: path.resolve(__dirname, "assets"),
     filename: "script.js",

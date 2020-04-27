@@ -11,7 +11,7 @@ function css() {
   const modules = [autoprefixer(), cssnano()];
 
   return gulp
-    .src("./src/assets/style.scss", { sourcemaps: true })
+    .src("./src/css/style.scss", { sourcemaps: true })
     .pipe(sass().on("error", sass.logError))
     .pipe(postcss(modules))
     .pipe(rename("style.css"))
