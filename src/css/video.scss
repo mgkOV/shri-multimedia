@@ -1,0 +1,53 @@
+.video-wrapper {
+  position: absolute;
+  width: calc(100% - 32px);
+  height: calc(100% - 32px);
+  display: inline-block;
+  box-sizing: border-box;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 16px;
+  transition: transform 0.3s;
+  transform: scale(0.495);
+}
+
+.top-left {
+  top: 16px;
+  left: 16px;
+  transform-origin: top left;
+}
+
+.top-right {
+  top: 16px;
+  right: 16px;
+  transform-origin: top right;
+}
+
+.bottom-left {
+  bottom: 16px;
+  left: 16px;
+  transform-origin: bottom left;
+}
+
+.bottom-right {
+  bottom: 16px;
+  right: 16px;
+  transform-origin: bottom right;
+}
+
+.video-wrapper__fullscreen {
+  z-index: 10;
+  transform: scale(1);
+}
+
+.video {
+  box-sizing: border-box;
+}
+
+.video__fullwidth {
+  width: 100%;
+}
+
+.video-fullheight {
+  height: 100%;
+}

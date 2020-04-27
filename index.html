@@ -9,10 +9,18 @@
   </head>
   <body>
     <div class="layout">
-      <video id="video-1" class="video" controls muted autoplay></video>
-      <video id="video-2" class="video" controls muted autoplay></video>
-      <video id="video-3" class="video" controls muted autoplay></video>
-      <video id="video-4" class="video" controls muted autoplay></video>
+      <div class="video-wrapper top-left">
+        <video id="video-1" class="video video__fullwidth" muted autoplay></video>
+      </div>
+      <div class="video-wrapper top-right">
+        <video id="video-2" class="video video-fullheight" muted autoplay></video>
+      </div>
+      <div class="video-wrapper bottom-left">
+        <video id="video-3" class="video video-fullheight" muted autoplay></video>
+      </div>
+      <div class="video-wrapper bottom-right">
+        <video id="video-4" class="video video-fullheight" muted autoplay></video>
+      </div>
     </div>
     <script>
       initVideo(
