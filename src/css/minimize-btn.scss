@@ -1,0 +1,19 @@
+.minimize-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(40, 41, 57, 0.7);
+  user-select: none;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+
+  .video-wrapper__fullscreen & {
+    display: flex;
+  }
+}

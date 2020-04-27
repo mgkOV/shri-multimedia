@@ -9,6 +9,7 @@
   border-radius: 16px;
   transition: transform 0.3s;
   transform: scale(0.495);
+  background-color: $bg-player;
 }
 
 .top-left {
@@ -38,16 +39,13 @@
 .video-wrapper__fullscreen {
   z-index: 10;
   transform: scale(1);
+  cursor: auto;
 }
 
 .video {
   box-sizing: border-box;
-}
-
-.video__fullwidth {
+  position: absolute;
   width: 100%;
-}
-
-.video-fullheight {
-  height: 100%;
+  top: 50%;
+  transform: translateY(-50%);
 }
