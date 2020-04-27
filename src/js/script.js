@@ -2,6 +2,23 @@ const playerList = document.querySelectorAll(".video-wrapper");
 
 playerList.forEach((p) => {
   p.addEventListener("click", handlePlayerClick);
+
+  const contrast = p.querySelector(".contrast .settings_input");
+  const brightness = p.querySelector(".brightness .settings_input");
+  const video = p.querySelector(".video");
+  video.style.filter = "brightness(1) contrast(1)";
+
+  contrast.addEventListener("input", (e) => {
+    const filters = video.style.filter.split(" ");
+    video.style.filter = `${filters[0]} contrast(${e.target.value})`;
+    console.log(video.style.filter);
+  });
+
+  brightness.addEventListener("input", (e) => {
+    const filters = video.style.filter.split(" ");
+    video.style.filter = `brightness(${e.target.value}) ${filters[1]}`;
+    console.log(video.style.filter);
+  });
 });
 
 function handlePlayerClick(e) {
