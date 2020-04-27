@@ -6,7 +6,7 @@
   box-sizing: border-box;
   overflow: hidden;
   cursor: pointer;
-  border-radius: 16px;
+  border-radius: 28px;
   transition: transform 0.3s;
   transform: scale(0.495);
   background-color: $bg-player;
@@ -40,6 +40,7 @@
   z-index: 10;
   transform: scale(1);
   cursor: auto;
+  border-radius: 14px;
 }
 
 .video {

@@ -10,30 +10,98 @@
   <body>
     <div class="layout">
       <div class="video-wrapper top-left">
-        <span class="minimize-btn">
-          <img class="minimize-btn_icon" src="assets/minimize.svg" alt="minimize" />
+        <span class="btn btn__minimize">
+          <img class="btn_icon" src="assets/img/minimize.svg" alt="Все камеры" />
         </span>
         <video id="video-1" class="video" muted autoplay></video>
+        <span class="btn btn__settings">
+          <img class="btn_icon" src="assets/img/settings.svg" alt="Настройки" />
+        </span>
+        <span class="btn btn__volume">
+          <img class="btn_icon" src="assets/img/muted.svg" alt="Звук" />
+        </span>
+        <div class="settings">
+          <div class="settings_item contrast">
+            <img class="settings_icon" src="assets/img/contrast.svg" alt="Контраст" />
+            <input class="settings_input" type="range" />
+          </div>
+          <div class="settings_item brightness">
+            <img class="settings_icon" src="assets/img/brightness.svg" alt="Яркость" />
+            <input class="settings_input" type="range" />
+          </div>
+        </div>
       </div>
+
       <div class="video-wrapper top-right">
-        <span class="minimize-btn">
-          <img class="minimize-btn_icon" src="assets/minimize.svg" alt="minimize" />
+        <span class="btn btn__minimize">
+          <img class="btn_icon" src="assets/img/minimize.svg" alt="Все камеры" />
         </span>
         <video id="video-2" class="video" muted autoplay></video>
+        <span class="btn btn__settings">
+          <img class="btn_icon" src="assets/img/settings.svg" alt="Настройки" />
+        </span>
+        <span class="btn btn__volume">
+          <img class="btn_icon" src="assets/img/muted.svg" alt="Звук" />
+        </span>
+        <div class="settings">
+          <div class="settings_item contrast">
+            <img class="settings_icon" src="assets/img/contrast.svg" alt="Контраст" />
+            <input class="settings_input" type="range" />
+          </div>
+          <div class="settings_item brightness">
+            <img class="settings_icon" src="assets/img/brightness.svg" alt="Яркость" />
+            <input class="settings_input" type="range" />
+          </div>
+        </div>
       </div>
+
       <div class="video-wrapper bottom-left">
-        <span class="minimize-btn">
-          <img class="minimize-btn_icon" src="assets/minimize.svg" alt="minimize" />
+        <span class="btn btn__minimize">
+          <img class="btn_icon" src="assets/img/minimize.svg" alt="Все камеры" />
         </span>
         <video id="video-3" class="video" muted autoplay></video>
+        <span class="btn btn__settings">
+          <img class="btn_icon" src="assets/img/settings.svg" alt="Настройки" />
+        </span>
+        <span class="btn btn__volume">
+          <img class="btn_icon" src="assets/img/muted.svg" alt="Звук" />
+        </span>
+        <div class="settings">
+          <div class="settings_item contrast">
+            <img class="settings_icon" src="assets/img/contrast.svg" alt="Контраст" />
+            <input class="settings_input" type="range" />
+          </div>
+          <div class="settings_item brightness">
+            <img class="settings_icon" src="assets/img/brightness.svg" alt="Яркость" />
+            <input class="settings_input" type="range" />
+          </div>
+        </div>
       </div>
+
       <div class="video-wrapper bottom-right">
-        <span class="minimize-btn">
-          <img class="minimize-btn_icon" src="assets/minimize.svg" alt="minimize" />
+        <span class="btn btn__minimize">
+          <img class="btn_icon" src="assets/img/minimize.svg" alt="Все камеры" />
         </span>
         <video id="video-4" class="video" muted autoplay></video>
+        <span class="btn btn__settings">
+          <img class="btn_icon" src="assets/img/settings.svg" alt="Настройки" />
+        </span>
+        <span class="btn btn__volume">
+          <img class="btn_icon" src="assets/img/muted.svg" alt="Звук" />
+        </span>
+        <div class="settings">
+          <div class="settings_item contrast">
+            <img class="settings_icon" src="assets/img/contrast.svg" alt="Контраст" />
+            <input class="settings_input" type="range" />
+          </div>
+          <div class="settings_item brightness">
+            <img class="settings_icon" src="assets/img/brightness.svg" alt="Яркость" />
+            <input class="settings_input" type="range" />
+          </div>
+        </div>
       </div>
     </div>
+
     <script>
       initVideo(
         document.getElementById("video-1"),

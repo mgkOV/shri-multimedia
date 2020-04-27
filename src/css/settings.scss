@@ -1,0 +1,34 @@
+.settings {
+  position: absolute;
+  z-index: 2;
+  background-color: $bg;
+  width: 500px;
+  height: 40px;
+  bottom: 20px;
+  border-radius: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  display: none;
+}
+
+.settings__visible {
+  display: flex;
+}
+
+.settings_item {
+  display: flex;
+  justify-content: center;
+}
+
+.settings_icon {
+  margin-right: 4px;
+}
+
+.settings_input {
+  position: relative;
+  top: -3px;
+}

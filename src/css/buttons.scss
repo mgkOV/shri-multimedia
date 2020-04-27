@@ -1,8 +1,6 @@
-.minimize-btn {
+.btn {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: rgba(40, 41, 57, 0.7);
+  background-color: $bg-button;
   user-select: none;
   cursor: pointer;
   width: 30px;
@@ -16,4 +14,19 @@
   .video-wrapper__fullscreen & {
     display: flex;
   }
+}
+
+.btn__minimize {
+  top: $space-m;
+  right: $space-m;
+}
+
+.btn__settings {
+  bottom: $space-m;
+  right: $space-m;
+}
+
+.btn__volume {
+  bottom: $space-m;
+  right: 60px;
 }
