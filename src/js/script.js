@@ -19,7 +19,6 @@ playerList.forEach((p) => {
   brightness.addEventListener("input", (e) => {
     const filters = video.style.filter.split(" ");
     video.style.filter = `brightness(${e.target.value}) ${filters[1]}`;
-    console.log(video.style.filter);
   });
 
   let analyser = createAnalizer(audioCtx);
@@ -29,10 +28,15 @@ playerList.forEach((p) => {
   const bufferLength = analyser.frequencyBinCount;
   const ctxData = new Uint8Array(bufferLength);
 
+  const volumeLevel = p.querySelector(".volume-bar");
+
   setInterval(() => {
     analyser.getByteFrequencyData(ctxData);
-    // console.log(ctxData);
-  }, 1000);
+    const total = ctxData.reduce((acc, c) => acc + c, 0);
+    const everage = total / ctxData.length;
+    const volumeIdx = everage / 100;
+    volumeLevel.style.transform = `scaleY(${volumeIdx})`;
+  }, 100);
 });
 
 function handlePlayerClick(e) {
@@ -81,7 +85,7 @@ function initContext() {
 function createAnalizer(context) {
   const analyser = context.createAnalyser();
 
-  analyser.fftSize = 128;
+  analyser.fftSize = 32;
   analyser.smoothingTimeConstant = 0;
 
   return analyser;

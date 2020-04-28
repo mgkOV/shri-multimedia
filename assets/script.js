@@ -109,7 +109,6 @@ playerList.forEach(function (p) {
   brightness.addEventListener("input", function (e) {
     var filters = video.style.filter.split(" ");
     video.style.filter = "brightness(".concat(e.target.value, ") ").concat(filters[1]);
-    console.log(video.style.filter);
   });
   var analyser = createAnalizer(audioCtx);
   var source = audioCtx.createMediaElementSource(video);
@@ -117,9 +116,16 @@ playerList.forEach(function (p) {
   analyser.connect(audioCtx.destination);
   var bufferLength = analyser.frequencyBinCount;
   var ctxData = new Uint8Array(bufferLength);
+  var volumeLevel = p.querySelector(".volume-bar");
   setInterval(function () {
-    analyser.getByteFrequencyData(ctxData); // console.log(ctxData);
-  }, 1000);
+    analyser.getByteFrequencyData(ctxData);
+    var total = ctxData.reduce(function (acc, c) {
+      return acc + c;
+    }, 0);
+    var everage = total / ctxData.length;
+    var volumeIdx = everage / 100;
+    volumeLevel.style.transform = "scaleY(".concat(volumeIdx, ")");
+  }, 100);
 });
 
 function handlePlayerClick(e) {
@@ -166,7 +172,7 @@ function initContext() {
 
 function createAnalizer(context) {
   var analyser = context.createAnalyser();
-  analyser.fftSize = 128;
+  analyser.fftSize = 32;
   analyser.smoothingTimeConstant = 0;
   return analyser;
 }
