@@ -7,7 +7,8 @@ const config = {
     path: path.resolve(__dirname, "assets"),
     filename: "script.js",
   },
-
+  mode: "development",
+  devtool: "source-map",
   module: {
     rules: [
       {

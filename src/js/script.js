@@ -1,3 +1,5 @@
+let audioCtx = initContext();
+
 const playerList = document.querySelectorAll(".video-wrapper");
 
 playerList.forEach((p) => {
@@ -19,6 +21,18 @@ playerList.forEach((p) => {
     video.style.filter = `brightness(${e.target.value}) ${filters[1]}`;
     console.log(video.style.filter);
   });
+
+  let analyser = createAnalizer(audioCtx);
+  const source = audioCtx.createMediaElementSource(video);
+  source.connect(analyser);
+  analyser.connect(audioCtx.destination);
+  const bufferLength = analyser.frequencyBinCount;
+  const ctxData = new Uint8Array(bufferLength);
+
+  setInterval(() => {
+    analyser.getByteFrequencyData(ctxData);
+    // console.log(ctxData);
+  }, 1000);
 });
 
 function handlePlayerClick(e) {
@@ -32,6 +46,7 @@ function handlePlayerClick(e) {
   // MINIMIZE
   if (minimizeBtn) {
     video.muted = true;
+    this.querySelector(".btn__volume .btn_icon").src = "assets/img/muted.svg";
     this.classList.remove("video-wrapper__fullscreen");
     settings.classList.remove("settings__visible");
   }
@@ -45,6 +60,10 @@ function handlePlayerClick(e) {
       volumeIcon.src = "assets/img/muted.svg";
     } else {
       volumeIcon.src = "assets/img/volume.svg";
+
+      if (audioCtx.state !== "running") {
+        audioCtx.resume();
+      }
     }
   }
 
@@ -52,4 +71,18 @@ function handlePlayerClick(e) {
   if (settingsBtn) {
     settings.classList.toggle("settings__visible");
   }
+}
+
+function initContext() {
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  return new AudioContext();
+}
+
+function createAnalizer(context) {
+  const analyser = context.createAnalyser();
+
+  analyser.fftSize = 128;
+  analyser.smoothingTimeConstant = 0;
+
+  return analyser;
 }
