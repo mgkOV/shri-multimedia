@@ -97,6 +97,7 @@ var audioCtx = initContext();
 var playerList = document.querySelectorAll(".video-wrapper");
 playerList.forEach(function (p) {
   p.addEventListener("click", handlePlayerClick);
+  console.log(p);
   var contrast = p.querySelector(".contrast .settings_input");
   var brightness = p.querySelector(".brightness .settings_input");
   var video = p.querySelector(".video");

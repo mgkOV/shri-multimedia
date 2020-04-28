@@ -4,6 +4,7 @@ const playerList = document.querySelectorAll(".video-wrapper");
 
 playerList.forEach((p) => {
   p.addEventListener("click", handlePlayerClick);
+  console.log(p);
 
   const contrast = p.querySelector(".contrast .settings_input");
   const brightness = p.querySelector(".brightness .settings_input");

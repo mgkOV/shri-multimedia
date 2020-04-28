@@ -9,7 +9,6 @@ input[type="range"] {
   box-sizing: border-box;
   font-size: $font-size;
   line-height: 1;
-  height: 2em;
   background-color: transparent;
   cursor: pointer;
 
@@ -34,27 +33,30 @@ input[type="range"] {
 
   // * * * TRUMP * * *
 
-  @mixin mx-trange-trump() {
+  @mixin mx-trange-trump {
     width: 2em;
     height: 2em;
     margin-top: 0;
     background-color: $color__fill;
-    border-radius: 1em;
+    border-radius: 50%;
     border: 2px solid $color__default;
     cursor: pointer;
   }
 
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
-    @include mx-trange-trump();
+    @include mx-trange-trump;
   }
 
   &::-moz-range-thumb {
-    @include mx-trange-trump();
+    @include mx-trange-trump;
+    transform-origin: bottom;
+
+    transform: scale(0.6);
   }
 
   &::-ms-thumb {
-    @include mx-trange-trump();
+    @include mx-trange-trump;
   }
 
   &:hover {
@@ -84,7 +86,7 @@ input[type="range"] {
 
   // * * * TRACK * * *
 
-  @mixin mx-range-track() {
+  @mixin mx-range-track {
     width: 100%;
     cursor: pointer;
     height: 1em;
@@ -93,11 +95,11 @@ input[type="range"] {
   }
 
   &::-webkit-slider-runnable-track {
-    @include mx-range-track();
+    @include mx-range-track;
   }
 
   &::-moz-range-track {
-    @include mx-range-track();
+    @include mx-range-track;
   }
 
   &::-ms-track {
