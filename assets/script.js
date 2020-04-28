@@ -93,41 +93,24 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-var audioCtx = initContext();
-var playerList = document.querySelectorAll(".video-wrapper");
+var playerList = document.querySelectorAll(".video-wrapper"); // Регистриуем обработчики событий
+
 playerList.forEach(function (p) {
   p.addEventListener("click", handlePlayerClick);
-  console.log(p);
+  var video = p.querySelector(".video");
   var contrast = p.querySelector(".contrast .settings_input");
   var brightness = p.querySelector(".brightness .settings_input");
-  var video = p.querySelector(".video");
-  video.style.filter = "brightness(1) contrast(1)";
+  video.style.filter = "brightness(1) contrast(1)"; // Регистрируем яркость контраст
+
   contrast.addEventListener("input", function (e) {
     var filters = video.style.filter.split(" ");
     video.style.filter = "".concat(filters[0], " contrast(").concat(e.target.value, ")");
-    console.log(video.style.filter);
   });
   brightness.addEventListener("input", function (e) {
     var filters = video.style.filter.split(" ");
     video.style.filter = "brightness(".concat(e.target.value, ") ").concat(filters[1]);
   });
-  var analyser = createAnalizer(audioCtx);
-  var source = audioCtx.createMediaElementSource(video);
-  source.connect(analyser);
-  analyser.connect(audioCtx.destination);
-  var bufferLength = analyser.frequencyBinCount;
-  var ctxData = new Uint8Array(bufferLength);
-  var volumeLevel = p.querySelector(".volume-bar");
-  setInterval(function () {
-    analyser.getByteFrequencyData(ctxData);
-    var total = ctxData.reduce(function (acc, c) {
-      return acc + c;
-    }, 0);
-    var everage = total / ctxData.length;
-    var volumeIdx = everage / 100;
-    volumeLevel.style.transform = "scaleY(".concat(volumeIdx, ")");
-  }, 100);
-});
+}); // Обработчик кликов
 
 function handlePlayerClick(e) {
   this.classList.add("video-wrapper__fullscreen");
@@ -142,7 +125,7 @@ function handlePlayerClick(e) {
     this.querySelector(".btn__volume .btn_icon").src = "assets/img/muted.svg";
     this.classList.remove("video-wrapper__fullscreen");
     settings.classList.remove("settings__visible");
-  } // MUTE
+  } // MUTE/UNMUTE
 
 
   if (volumeBtn) {
@@ -152,29 +135,59 @@ function handlePlayerClick(e) {
     if (video.muted) {
       volumeIcon.src = "assets/img/muted.svg";
     } else {
-      volumeIcon.src = "assets/img/volume.svg";
+      volumeIcon.src = "assets/img/volume.svg"; // Инициализируем аналайзер
 
-      if (audioCtx.state !== "running") {
-        audioCtx.resume();
-      }
+      initAnalazer();
     }
-  } // CONTRAST & BRIGHTNESS
+  } // Переключаем отоброжение панели Яркость/Контраст
 
 
   if (settingsBtn) {
     settings.classList.toggle("settings__visible");
   }
-}
+} // Создаем аналайзеры
 
-function initContext() {
-  var AudioContext = window.AudioContext || window.webkitAudioContext;
-  return new AudioContext();
-}
+
+var initAnalazer = function () {
+  var audioCtx;
+
+  function init() {
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    audioCtx = new AudioContext();
+    playerList.forEach(function (p) {
+      var video = p.querySelector(".video");
+      var analyser = createAnalizer(audioCtx);
+      var source = audioCtx.createMediaElementSource(video);
+      source.connect(analyser);
+      analyser.connect(audioCtx.destination);
+      var bufferLength = analyser.frequencyBinCount;
+      var ctxData = new Uint8Array(bufferLength);
+      var volumeLevel = p.querySelector(".volume-bar");
+      setInterval(function () {
+        analyser.getByteFrequencyData(ctxData);
+        var total = ctxData.reduce(function (acc, c) {
+          return acc + c;
+        }, 0);
+        var everage = total / ctxData.length;
+        var volumeIdx = everage / 100;
+        volumeLevel.style.transform = "scaleY(".concat(volumeIdx, ")");
+      }, 100);
+    });
+  }
+
+  return function () {
+    if (!audioCtx) {
+      init();
+    }
+  };
+}(playerList);
 
 function createAnalizer(context) {
+  var fftSize = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 32;
+  var timeConstant = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
   var analyser = context.createAnalyser();
-  analyser.fftSize = 32;
-  analyser.smoothingTimeConstant = 0;
+  analyser.fftSize = fftSize;
+  analyser.smoothingTimeConstant = timeConstant;
   return analyser;
 }
 

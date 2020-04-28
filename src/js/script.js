@@ -1,47 +1,25 @@
-// Создаем контекст
-let audioCtx = initContext();
-
 const playerList = document.querySelectorAll(".video-wrapper");
 
 // Регистриуем обработчики событий
 playerList.forEach((p) => {
   p.addEventListener("click", handlePlayerClick);
-  console.log(p);
+
+  const video = p.querySelector(".video");
 
   const contrast = p.querySelector(".contrast .settings_input");
   const brightness = p.querySelector(".brightness .settings_input");
-  const video = p.querySelector(".video");
   video.style.filter = "brightness(1) contrast(1)";
 
   // Регистрируем яркость контраст
   contrast.addEventListener("input", (e) => {
     const filters = video.style.filter.split(" ");
     video.style.filter = `${filters[0]} contrast(${e.target.value})`;
-    console.log(video.style.filter);
   });
 
   brightness.addEventListener("input", (e) => {
     const filters = video.style.filter.split(" ");
     video.style.filter = `brightness(${e.target.value}) ${filters[1]}`;
   });
-
-  // Создаем анализатор аудио
-  let analyser = createAnalizer(audioCtx);
-  const source = audioCtx.createMediaElementSource(video);
-  source.connect(analyser);
-  analyser.connect(audioCtx.destination);
-  const bufferLength = analyser.frequencyBinCount;
-  const ctxData = new Uint8Array(bufferLength);
-
-  const volumeLevel = p.querySelector(".volume-bar");
-
-  setInterval(() => {
-    analyser.getByteFrequencyData(ctxData);
-    const total = ctxData.reduce((acc, c) => acc + c, 0);
-    const everage = total / ctxData.length;
-    const volumeIdx = everage / 100;
-    volumeLevel.style.transform = `scaleY(${volumeIdx})`;
-  }, 100);
 });
 
 // Обработчик кликов
@@ -71,9 +49,8 @@ function handlePlayerClick(e) {
     } else {
       volumeIcon.src = "assets/img/volume.svg";
 
-      if (audioCtx.state !== "running") {
-        audioCtx.resume();
-      }
+      // Инициализируем аналайзер
+      initAnalazer();
     }
   }
 
@@ -83,11 +60,43 @@ function handlePlayerClick(e) {
   }
 }
 
-// Инициализатор аудио контекста
-function initContext() {
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  return new AudioContext();
-}
+// Создаем аналайзеры
+const initAnalazer = (function () {
+  let audioCtx;
+  function init() {
+    let AudioContext = window.AudioContext || window.webkitAudioContext;
+    audioCtx = new AudioContext();
+
+    playerList.forEach((p) => {
+      const video = p.querySelector(".video");
+
+      let analyser = createAnalizer(audioCtx);
+
+      const source = audioCtx.createMediaElementSource(video);
+      source.connect(analyser);
+      analyser.connect(audioCtx.destination);
+
+      const bufferLength = analyser.frequencyBinCount;
+      const ctxData = new Uint8Array(bufferLength);
+
+      const volumeLevel = p.querySelector(".volume-bar");
+
+      setInterval(() => {
+        analyser.getByteFrequencyData(ctxData);
+        const total = ctxData.reduce((acc, c) => acc + c, 0);
+        const everage = total / ctxData.length;
+        const volumeIdx = everage / 100;
+        volumeLevel.style.transform = `scaleY(${volumeIdx})`;
+      }, 100);
+    });
+  }
+
+  return function () {
+    if (!audioCtx) {
+      init();
+    }
+  };
+})(playerList);
 
 function createAnalizer(context, fftSize = 32, timeConstant = 0) {
   const analyser = context.createAnalyser();
