@@ -2,10 +2,10 @@
   position: absolute;
   z-index: 2;
   background-color: $bg;
+  border-radius: 20px;
   width: 500px;
   height: 40px;
   bottom: 20px;
-  border-radius: 20px;
   left: 50%;
   transform: translateX(-50%);
   align-items: center;
@@ -31,4 +31,16 @@
 .settings_input {
   position: relative;
   top: -3px;
+}
+
+@media screen and (max-width: 760px) {
+  .settings {
+    left: 20px;
+    bottom: auto;
+    top: 50%;
+    height: 100px;
+    max-width: 70vh;
+    transform-origin: top left;
+    transform: rotate(-90deg) translateX(-50%);
+  }
 }

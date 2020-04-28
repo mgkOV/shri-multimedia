@@ -30,3 +30,13 @@
   bottom: $space-m;
   right: 60px;
 }
+
+@media screen and (max-width: 520px) {
+  .btn__volume,
+  .btn__settings {
+    bottom: $space-l;
+  }
+  .btn__minimize {
+    top: $space-l;
+  }
+}
