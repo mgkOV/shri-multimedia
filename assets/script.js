@@ -97,11 +97,11 @@ var playerList = document.querySelectorAll(".video-wrapper"); // Регистр�
 
 playerList.forEach(function (p) {
   p.addEventListener("click", handlePlayerClick);
-  var video = p.querySelector(".video");
+  var video = p.querySelector(".video"); // Регистрируем оработчики для яркости контраста
+
   var contrast = p.querySelector(".contrast .settings_input");
   var brightness = p.querySelector(".brightness .settings_input");
-  video.style.filter = "brightness(1) contrast(1)"; // Регистрируем яркость контраст
-
+  video.style.filter = "brightness(1) contrast(1)";
   contrast.addEventListener("input", function (e) {
     var filters = video.style.filter.split(" ");
     video.style.filter = "".concat(filters[0], " contrast(").concat(e.target.value, ")");
@@ -135,7 +135,7 @@ function handlePlayerClick(e) {
     if (video.muted) {
       volumeIcon.src = "assets/img/muted.svg";
     } else {
-      volumeIcon.src = "assets/img/volume.svg"; // Инициализируем аналайзер
+      volumeIcon.src = "assets/img/volume.svg"; // Инициализируем аналайзеры и контекст (Инициализация происходит только при первом вызове, дальнейшие вызовы холостые)
 
       initAnalazer();
     }
@@ -145,7 +145,7 @@ function handlePlayerClick(e) {
   if (settingsBtn) {
     settings.classList.toggle("settings__visible");
   }
-} // Создаем аналайзеры
+} // Замыкание для создания аудио контекста и аналайзеров
 
 
 var initAnalazer = function () {
@@ -153,7 +153,8 @@ var initAnalazer = function () {
 
   function init() {
     var AudioContext = window.AudioContext || window.webkitAudioContext;
-    audioCtx = new AudioContext();
+    audioCtx = new AudioContext(); // Создаем аналайзер дла каждого видео источника
+
     playerList.forEach(function (p) {
       var video = p.querySelector(".video");
       var analyser = createAnalizer(audioCtx);
@@ -162,15 +163,17 @@ var initAnalazer = function () {
       analyser.connect(audioCtx.destination);
       var bufferLength = analyser.frequencyBinCount;
       var ctxData = new Uint8Array(bufferLength);
-      var volumeLevel = p.querySelector(".volume-bar");
+      var volumeLevel = p.querySelector(".volume-bar"); // Запускаем интервал для анализатора громкости звука
+
       setInterval(function () {
         analyser.getByteFrequencyData(ctxData);
         var total = ctxData.reduce(function (acc, c) {
           return acc + c;
         }, 0);
         var everage = total / ctxData.length;
-        var volumeIdx = everage / 100;
-        volumeLevel.style.transform = "scaleY(".concat(volumeIdx, ")");
+        var volumeIdx = everage / 256; //
+
+        volumeLevel.style.transform = "scaleY(".concat(volumeIdx * 2, ")"); //коэффициент 2 - для увеличения амплитуды визуального эффекта
       }, 100);
     });
   }
@@ -180,7 +183,8 @@ var initAnalazer = function () {
       init();
     }
   };
-}(playerList);
+}(playerList); // Функция для создания аналайзеров
+
 
 function createAnalizer(context) {
   var fftSize = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 32;

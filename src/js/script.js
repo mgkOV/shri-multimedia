@@ -6,11 +6,11 @@ playerList.forEach((p) => {
 
   const video = p.querySelector(".video");
 
+  // Регистрируем оработчики для яркости контраста
   const contrast = p.querySelector(".contrast .settings_input");
   const brightness = p.querySelector(".brightness .settings_input");
   video.style.filter = "brightness(1) contrast(1)";
 
-  // Регистрируем яркость контраст
   contrast.addEventListener("input", (e) => {
     const filters = video.style.filter.split(" ");
     video.style.filter = `${filters[0]} contrast(${e.target.value})`;
@@ -49,7 +49,7 @@ function handlePlayerClick(e) {
     } else {
       volumeIcon.src = "assets/img/volume.svg";
 
-      // Инициализируем аналайзер
+      // Инициализируем аналайзеры и контекст (Инициализация происходит только при первом вызове, дальнейшие вызовы холостые)
       initAnalazer();
     }
   }
@@ -60,13 +60,14 @@ function handlePlayerClick(e) {
   }
 }
 
-// Создаем аналайзеры
+// Замыкание для создания аудио контекста и аналайзеров
 const initAnalazer = (function () {
   let audioCtx;
   function init() {
     let AudioContext = window.AudioContext || window.webkitAudioContext;
     audioCtx = new AudioContext();
 
+    // Создаем аналайзер дла каждого видео источника
     playerList.forEach((p) => {
       const video = p.querySelector(".video");
 
@@ -81,12 +82,13 @@ const initAnalazer = (function () {
 
       const volumeLevel = p.querySelector(".volume-bar");
 
+      // Запускаем интервал для анализатора громкости звука
       setInterval(() => {
         analyser.getByteFrequencyData(ctxData);
         const total = ctxData.reduce((acc, c) => acc + c, 0);
         const everage = total / ctxData.length;
-        const volumeIdx = everage / 100;
-        volumeLevel.style.transform = `scaleY(${volumeIdx})`;
+        const volumeIdx = everage / 256; //
+        volumeLevel.style.transform = `scaleY(${volumeIdx * 2})`; //коэффициент 2 - для увеличения амплитуды визуального эффекта
       }, 100);
     });
   }
@@ -98,6 +100,7 @@ const initAnalazer = (function () {
   };
 })(playerList);
 
+// Функция для создания аналайзеров
 function createAnalizer(context, fftSize = 32, timeConstant = 0) {
   const analyser = context.createAnalyser();
 
